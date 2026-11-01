@@ -25,23 +25,16 @@ settings and everything it has learned. **Settings › Updates** in SportsWitch 
 and can turn automatic installing off. Without step 3, SportsWitch says when a new version is out, and you put the
 new files in the same folder.
 
-**Chrome Web Store:** coming. The unlisted install link will be here once Google approves SportsWitch; Chrome
-keeps that copy up to date.
-
 ## What's new
 
 Every version, in plain words: [CHANGELOG.md](CHANGELOG.md).
 
-## What's in this repository
+## What's here
 
-* `extension/`: the extension as a folder copy has it, including `updater/`, SportsWitch Updater. `setup.ps1`
-  registers it with Chrome for the current Windows account (no administrator rights) so that only the
-  SportsWitch in that folder can start it; `sportswitch_updater.ps1` downloads a release from here, checks its
-  signature against `release-key.xml`, and copies it over the folder.
-* [Releases](../../releases): for each version, `SportsWitch-v<version>.zip` (Load unpacked) with its `.sha256`
-  checksum and `.sig` signature, made with a key that never leaves the developer's computer, and
-  `SportsWitch-v<version>-store.zip`, the Chrome Web Store package, which leaves the updater out.
-* `store/`: the Chrome Web Store listing, pictures and setup steps.
-* `.github/workflows/`: sends each release to the Chrome Web Store, once that is set up.
+* [Releases](../../releases): each version's `SportsWitch-v<version>.zip`, with a `.sha256` file for checking the
+  download and a `.sig` signature that automatic updates check before installing it.
+* `extension/`: SportsWitch itself, as the ZIP has it. In it, `updater/` is SportsWitch Updater, the small helper
+  behind automatic updates: it needs no administrator rights and installs only versions signed by SportsWitch's
+  developer.
 
 SportsWitch isn't affiliated with any streaming service, league or ESPN.

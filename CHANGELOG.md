@@ -30,7 +30,6 @@ arrive by themselves.
   folder over the old ones, then click the reload arrow on SportsWitch in `chrome://extensions`. Keep the folder
   where it is from then on.
 * Without the setup step, SportsWitch still checks every day and the popup says when a new version is out.
-* SportsWitch is getting ready for the Chrome Web Store too, where Chrome keeps it up to date.
 * Ad detection, switching, Silence mode and the ad-break extras work exactly as before.
 
 ## SportsWitch 4.3.0
