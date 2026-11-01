@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SportsWitch 4.4.0 · Detachable Controller</title>
+  <link rel="stylesheet" href="controller.css">
+  <link rel="stylesheet" href="sheet.css">
+</head>
+<body>
+  <div id="launcher" class="launcher">
+    <div class="launch-head">
+      <img src="icons/icon128.png" alt="SportsWitch icon" width="48" height="48">
+      <div><h1>Sports<span>Witch</span> Controller</h1><p>4.4.0 · Resizable detached controller</p></div>
+    </div>
+    <button type="button" id="launcherHelpButton" class="controller-help-launch" title="Open SportsWitch setup guide">? How to use SportsWitch</button>
+    <button type="button" id="floatButton" class="primary">↗ Keep Always on Top (PiP)</button>
+    <p id="floatMessage" class="launch-note">Your controller is detached and ready to use. Optional: click above to make it always on top. Chrome requires a separate click to allow this.</p>
+    <p class="launch-note">The controller works without PiP. Keep this window open while floating; close it to stop the floating controller.</p>
+    <button type="button" id="showController" class="secondary" hidden>Close Floating Window</button>
+  </div>
+  <div id="controllerRoot" class="controller-root" tabindex="-1">
+    <header class="controller-header">
+      <img src="icons/icon128.png" alt="" width="35" height="35">
+      <div class="name"><strong>Sports<span>Witch</span></strong><small>4.4.0 · Live controller</small></div>
+      <button type="button" id="controllerHelpButton" class="controller-help" title="Setup & help" aria-label="Setup and help">?</button>
+      <span class="status-pill" id="statePill">Connecting…</span>
+    </header>
+    <nav class="mode-bar" aria-label="Operating mode">
+      <button type="button" id="modeSwitch" aria-pressed="true">⇄ Switch</button>
+      <button type="button" id="modeSilence" aria-pressed="false">◌ Silence</button>
+    </nav>
+    <button type="button" id="returnToggle" class="return-toggle" role="switch" aria-checked="true">
+      <span class="return-text"><b>Return to higher-priority games</b><small id="returnDetail">Goes back to a higher game once it is clearly live.</small></span>
+      <span class="sw-switch on" id="returnKnob" aria-hidden="true"></span>
+    </button>
+    <div class="controller-toolbar">
+      <button type="button" id="holdButton">⏸ Hold</button>
+      <button type="button" id="disableButton">Disable</button>
+      <button type="button" id="settingsButton" title="Settings">⚙ Settings</button>
+    </div>
+    <div class="controller-toolbar corrections">
+      <button type="button" id="markAd" class="ad-correction">That's an ad</button>
+      <button type="button" id="markGame" class="game-correction">That's the game</button>
+    </div>
+    <p id="statusMessage" class="status-message">Reading SportsWitch state…</p>
+    <section class="probability" aria-label="Currently selected game prediction">
+      <div class="section-head"><b>Ad-break probability</b><small id="readingAge">Awaiting sample</small></div>
+      <div class="scores">
+        <div><span>Game</span><strong id="liveScore" class="green">—</strong><div class="meter"><i id="liveMeter" class="live-bg"></i></div></div>
+        <div><span>Ad break</span><strong id="adScore" class="pink">—</strong><div class="meter"><i id="adMeter" class="ad-bg"></i></div></div>
+      </div>
+      <p id="readingLine" class="reading-line">Not monitoring</p>
+    </section>
+    <section class="breaks-card" aria-label="Your ad breaks">
+      <b class="breaks-label">YOUR AD BREAKS</b>
+      <p id="breaksSummary" class="breaks-summary"></p>
+      <div class="controller-toolbar"><button type="button" id="previewBreak">▶ Preview</button><button type="button" id="customizeBreaks">Customize</button></div>
+    </section>
+    <div class="controller-lineup-shell">
+      <section class="controller-lineup-side" aria-label="Draggable game lineup">
+        <div class="lineup-head"><b id="lineupTitle">Priority lineup</b><span id="lineupCount">0/8</span></div>
+        <div id="lineup" class="lineup" aria-label="Priority lineup"></div>
+      </section>
+      <aside class="controller-preview-rail" aria-label="Nonblocking game preview">
+        <p class="controller-preview-empty" id="controllerPreviewIdle">Hover a game to see the video here. The lineup stays usable.</p>
+        <div id="preview" class="preview preview-floating" role="group" aria-label="Stream preview" hidden>
+      <div class="section-head"><b id="previewTitle">Preview</b><span id="previewAge"></span></div>
+      <img id="previewImage" alt="Preview from stream" hidden>
+      <p id="previewFallback" hidden>Video capture unavailable</p>
+      <button type="button" id="previewWatch" class="primary">▶ Watch this game</button>
+        </div>
+      </aside>
+    </div>
+    <div class="bottom-note">Drag ⠿ to change priority · click a stream to watch · add more games using the SportsWitch toolbar popup.</div>
+    <label class="fade-control">Idle fade <span id="fadeValue">35%</span><input id="fadeRange" type="range" min="20" max="100" step="5" value="35" aria-label="Controller opacity when pointer is away"></label>
+    <p id="errorBox" class="error" role="alert" hidden></p>
+    <div id="sheetHost"></div>
+  </div>
+  <script src="breaks_data.js"></script>
+  <script src="overlay.js"></script>
+  <script src="sheet.js"></script>
+  <script src="controller.js"></script>
+</body>
+</html>

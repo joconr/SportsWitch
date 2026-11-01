@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SportsWitch 4.4.0</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="sheet.css">
+</head>
+<body>
+  <header class="app-header">
+    <img class="app-icon" src="icons/icon128.png" alt="SportsWitch witch, broom and football emblem">
+    <div class="brand">
+      <h1>Sports<span>Witch</span> <small>4.4.0</small></h1>
+      <p id="brandLine">Multi-platform sports switching · 2–8 tabs</p>
+      <button type="button" class="update-link" id="updateBadge" hidden></button>
+    </div>
+    <div class="header-tools">
+      <button type="button" class="icon-button help-button" id="helpButton" title="Setup & help" aria-label="Setup and help">?</button>
+      <button type="button" class="icon-button" id="settingsButton" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.2 14.4 1.2 1-1.6 2.8-1.5-.5a8.8 8.8 0 0 1-2 1.2L15 20.5h-3.2l-.4-1.6a9 9 0 0 1-2.2-1.1l-1.4.5-1.6-2.8 1.2-1a8.6 8.6 0 0 1 0-2.5l-1.2-1 1.6-2.8 1.5.5a8.6 8.6 0 0 1 2-1.2l.5-1.6H15l.4 1.6a8.6 8.6 0 0 1 2.1 1.2l1.4-.5 1.6 2.8-1.2 1c.12.8.12 1.6-.1 2.4Z" transform="translate(-1 -1)"/></svg>
+    </button>
+    </div>
+  </header>
+
+  <main id="mainView">
+    <section class="mode-panel" aria-label="SportsWitch mode">
+      <div class="mode-switch" role="group" aria-label="Operating mode">
+        <button id="switchMode" type="button" class="mode-button selected" aria-pressed="true">⇄ Switch</button>
+        <button id="silenceMode" type="button" class="mode-button" aria-pressed="false">◌ Silence</button>
+      </div>
+      <p class="mode-description" id="modeDescription">Rank streams by drag-and-drop priority and skip detected ads.</p>
+      <button type="button" id="returnToggle" class="return-toggle" role="switch" aria-checked="true">
+        <span class="return-text"><b>Return to higher-priority games</b><small id="returnDetail">Goes back to a higher game once it is clearly live.</small></span>
+        <span class="sw-switch on" id="returnKnob" aria-hidden="true"></span>
+      </button>
+    </section>
+    <section class="panel">
+      <div class="top"><span class="heading" id="panelHeading">AUTO SWITCHING</span><span class="pill" id="statusPill">Disabled</span></div>
+      <div class="actions"><button id="enable" class="primary-button">Add This Tab</button><button id="disable" class="disable-button">Disable</button></div>
+      <p id="details" class="details">Select a game tab and click Add This Tab. Repeat on another tab to start.</p>
+      <div class="corrections" role="group" aria-label="Corrections">
+        <button type="button" id="markAd" class="correction ad-correction">That's an ad</button>
+        <button type="button" id="markGame" class="correction game-correction">That's the game</button>
+      </div>
+      <button id="holdButton" class="hold-button" type="button" aria-pressed="false" hidden>⏸ Hold Switching</button>
+      <p id="modeStatus" class="mode-status" hidden></p>
+    </section>
+
+    <button type="button" id="detachController" class="detach-controller" title="Open a separate, resizable SportsWitch controller window">▣ Detach Controller</button>
+    <section class="probability" aria-live="off">
+      <div class="prob-header"><span class="heading" id="probTitle">Currently selected game</span><span class="subtle" id="updated">No sample yet</span></div>
+      <div class="prob-grid">
+        <div><div class="prob-label">Game</div><div class="num live" id="livePct">—</div><div class="track"><div class="fill livebg" id="liveBar"></div></div></div>
+        <div><div class="prob-label">Ad break</div><div class="num ad" id="commercialPct">—</div><div class="track"><div class="fill adbg" id="commercialBar"></div></div></div>
+      </div>
+      <p class="reading-line" id="readingLine">Not monitoring</p>
+      <div class="analysis-meta"><span id="confirm">Acts at 90% sure · back below 50%</span><span id="analysis">A reading every second per tab</span></div>
+    </section>
+
+    <section class="breaks-card" aria-label="Your ad breaks">
+      <div class="breaks-top"><span class="heading">YOUR AD BREAKS</span></div>
+      <p class="breaks-summary" id="breaksSummary">Just muting. Add trivia, scores, fantasy football or music with Customize.</p>
+      <div class="actions"><button type="button" id="previewBreak">▶ Preview</button><button type="button" id="customizeBreaks">Customize</button></div>
+    </section>
+
+    <div class="lineup-workspace" aria-label="Game lineup and side preview">
+      <div class="lineup-side">
+        <div class="section-head"><span class="heading" id="gameHeading">Game tabs</span><small id="gameCount">2–8 supported</small></div>
+        <div id="games"></div>
+      </div>
+      <aside class="preview-rail" aria-label="Nonblocking game preview">
+        <p class="preview-rail-empty" id="previewIdle">Hover a stream to see its preview here. The game rows stay fully clickable.</p>
+        <div id="hoverPreview" class="hover-preview" hidden>
+      <div class="preview-top"><b id="previewName">Game preview</b><span id="previewAge"></span></div>
+      <div class="preview-media">
+        <img id="previewImage" alt="Captured frame from the hovered sports game" hidden>
+        <div id="previewFallback" class="preview-fallback" hidden>Preview not available. Protected video may appear blank.</div>
+      </div>
+      <div class="preview-actions">
+        <button type="button" id="previewWatch" class="preview-watch" aria-label="Watch the previewed game">▶ Watch This Game</button>
+      </div>
+      <div class="preview-caption" id="previewCaption">Checking for live video…</div>
+        </div>
+      </aside>
+    </div>
+    <p class="note" id="mainNote">Open any web video stream and click <b>Add This Tab</b>. Connect 2–8 tabs, then drag the ⠿ grip to rank your lineup. Higher rows get priority as soon as live coverage is confirmed. Hover to preview, click Watch This Game to switch. Hold pauses automatic switching.</p>
+    <div class="error" id="error" hidden></div>
+  </main>
+  <div id="sheetHost"></div>
+  <script src="breaks_data.js"></script>
+  <script src="overlay.js"></script>
+  <script src="sheet.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SportsWitch 4.4.0 — Help & Setup</title>
+  <link rel="stylesheet" href="help.css">
+</head>
+<body>
+  <div class="page">
+    <header class="hero" id="top">
+      <img src="icons/icon128.png" alt="SportsWitch broom-riding witch logo" width="66" height="66">
+      <div><div class="eyebrow">THE SPORTS STREAM COMPANION</div><h1>Sports<span>Witch</span> <small>4.4.0</small></h1><p>Your setup guide, controls, ad breaks and troubleshooting in one place.</p></div>
+    </header>
+    <div class="intro"><strong>Start with two tabs.</strong> Open a sports stream, click the SportsWitch extension, choose <b>Switch</b>, and click <b>Add This Tab</b>. Repeat for another stream. SportsWitch starts switching once two are connected. For one game, choose <b>Silence</b> instead: ads are muted and the sound comes back with the game.</div>
+    <nav class="contents" aria-label="Help topics">
+      <a href="#install">Install</a><a href="#quick-start">Quick start</a><a href="#modes">Modes</a><a href="#corrections">Corrections</a><a href="#ad-breaks">Ad breaks</a><a href="#lineup">Lineup</a><a href="#controller">Controller</a><a href="#settings">Settings</a><a href="#full-screen">Fullscreen</a><a href="#performance">Performance</a><a href="#troubleshoot">Troubleshooting</a><a href="#privacy">Privacy</a>
+    </nav>
+    <main>
+      <section class="card" id="install">
+        <h2><span class="no">01</span> Install SportsWitch</h2>
+        <p><b>From a ZIP</b> (a copy loaded from a folder):</p>
+        <ol>
+          <li>Download the SportsWitch ZIP from SportsWitch's GitHub releases, or from the person sharing it with you, and extract the complete folder somewhere it can stay, such as Documents.</li>
+          <li>In Chrome, open <code>chrome://extensions</code>, turn on <b>Developer mode</b>, and choose <b>Load unpacked</b>.</li>
+          <li>Select the <b>SportsWitch</b> folder that directly contains <code>manifest.json</code>.</li>
+          <li>Pin SportsWitch using Chrome's puzzle-piece Extensions menu for easier access.</li>
+          <li>Disable any older SportsWitch copies. Having multiple versions active can interfere with audio and switching.</li>
+          <li>Once on each computer, double-click <b>Set up automatic updates</b> in the SportsWitch folder. If Windows asks whether to run it, choose <b>Run</b>.</li>
+        </ol>
+        <p class="note"><b>Updates:</b> a folder copy checks SportsWitch's GitHub page every day. With automatic updates set up, SportsWitch Updater, a small helper, downloads the new version, checks that SportsWitch's developer signed it and copies it into the folder, and SportsWitch restarts with it between games, never during one. Without it, the popup says when a new version is out: put the new files in the same folder and click the reload arrow on SportsWitch in <code>chrome://extensions</code>. Either way the same folder keeps your settings and everything SportsWitch has learned, so leave it where it is. <b>Settings › Updates</b> shows the version and can check right away.</p>
+        <p><b>From the Chrome Web Store</b>, once it's there (the link will be on SportsWitch's GitHub page): click <b>Add to Chrome</b>, then pin SportsWitch. Chrome keeps that copy up to date, installing new versions between games.</p>
+      </section>
+      <section class="card" id="quick-start">
+        <h2><span class="no">02</span> Add your sports streams</h2>
+        <ol>
+          <li>Sign in to your streaming provider normally and start playing a sports broadcast in a Chrome tab.</li>
+          <li>While <b>that tab is active</b>, click the SportsWitch toolbar icon. Choose <b>⇄ Switch</b> and click <b>Add This Tab</b>.</li>
+          <li>Open your second sports stream in another tab (or Chrome window). Make that stream active, open SportsWitch, and click <b>Add This Tab</b> again.</li>
+          <li>After <b>two games</b>, switching starts. Add more streams the same way, up to <b>eight</b>.</li>
+          <li>To stop and release the streams, click <b>Disable</b> in the popup or controller.</li>
+        </ol>
+        <p class="note"><b>Why one tab at a time?</b> Chrome asks you to click the extension in each stream's own tab before it may listen to it. The first time you open SportsWitch, a short welcome guide walks you through this; it's in <b>? › Setup &amp; help</b> if you want it again.</p>
+      </section>
+      <section class="card" id="modes">
+        <h2><span class="no">03</span> Choose your mode</h2>
+        <div class="two">
+          <div class="mini"><h3>⇄ Switch mode</h3><p>Follow <b>2–8</b> games. SportsWitch listens to all of them at once. When yours goes to ads it moves to the highest game on your list that is live, and comes back to a higher game once it is clearly back from its break.</p><p>Turn off <b>Return to higher-priority games</b> (right under the Switch button) to stay on the game it moved to: SportsWitch still leaves ads, but only goes back when that game has an ad of its own or you choose another game.</p><p><b>Hold Switching</b> keeps you on the current game. You can still choose a game yourself.</p></div>
+          <div class="mini"><h3>◌ Silence mode</h3><p>One game. Ads are muted within a few seconds and the sound comes back by itself when the game returns. SportsWitch keeps listening the whole time.</p><p>While an ad is muted, your ad-break screen and music can fill the break.</p></div>
+        </div>
+        <p>SportsWitch reads each game about once a second and keeps a running estimate of whether an ad break is on. It acts when it is <b>90% sure</b> and returns below <b>50%</b>. A short silence between programme and ads, an ad it has heard before, and audio that aired earlier in the evening all count as strong evidence, so most ads are caught in 2–4 seconds. These are estimates, not guarantees.</p>
+      </section>
+      <section class="card" id="corrections">
+        <h2><span class="no">04</span> When SportsWitch gets it wrong</h2>
+        <ul>
+          <li><b>That's an ad</b> mutes (or switches) at once, keeps game-like sound from undoing it for a minute, and remembers that ad so its next airing is caught within about two seconds.</li>
+          <li><b>That's the game</b> brings the sound back at once, forgets what caused the mistake, and keeps ad-like sound from muting it again for a minute.</li>
+          <li>Both buttons are in the popup and the controller, and on the keyboard: <b>Alt+Shift+A</b> for an ad and <b>Alt+Shift+G</b> for the game. Change them at <code>chrome://extensions/shortcuts</code>.</li>
+          <li>SportsWitch also learns on its own from ads it recognises and long stretches of game. It gets better at your streams over an evening. <b>Settings › Reset what SportsWitch learned</b> starts over.</li>
+        </ul>
+      </section>
+      <section class="card" id="ad-breaks">
+        <h2><span class="no">05</span> Customize your ad break</h2>
+        <p>While an ad is muted, SportsWitch can fill the break. Every piece is optional (<b>Customize</b> in the popup, or <b>▶ Preview</b> to try it), and they share one screen at the bottom of the game:</p>
+        <ul>
+          <li><b>Trivia.</b> Family-friendly questions from Open Trivia DB, plus "best record right now" questions from this week's standings. The answer appears after 15 seconds. You choose the topics.</li>
+          <li><b>Scores around the league.</b> Live, upcoming and final scores from ESPN for the leagues you pick.</li>
+          <li><b>Red-zone and close-finish alerts.</b> When another game in your lineup reaches the red zone or a close final two minutes, a note appears in the corner with a <b>Watch</b> button. With <b>Jump to big moments</b> on, Switch mode goes there by itself.</li>
+          <li><b>ESPN Fantasy Football.</b> SportsWitch uses the espn.com sign-in already in Chrome: choose <b>ESPN account › Open ESPN sign-in</b>, sign in on ESPN's own page, then <b>Find my team</b>. The ad-break screen shows your matchup, and <b>scoring alerts</b> ("+6.0 Bijan Robinson · rushing TD") appear in the corner, during the game too.</li>
+          <li><b>Radio.</b> Thousands of free stations from Radio Browser, by style (lofi included). The music fades in and out, and the ad plays quietly underneath at about 20%. <b>Silence the ad under the music</b> keeps the ad fully muted instead.</li>
+          <li><b>Spotify.</b> Plays your own Spotify during breaks and pauses it when the game is back. It uses Spotify in a Chrome tab (open.spotify.com), signed in with your account, Free or Premium; there is nothing else to set up. In that tab, press play once and pause it, because Chrome only lets SportsWitch start music in a tab where you have played some. <b>Try it</b> checks everything in five seconds. Spotify plays at its own volume, instead of the radio.</li>
+          <li><b>Music volume</b> works in steps you can hear (each 10% is 3 dB) and applies straight away, even mid-break.</li>
+        </ul>
+        <p class="note">Click the ad-break screen (or press <b>Esc</b>) to hide it until the break ends. The ad-break extras are the only part of SportsWitch that uses the internet; ad detection never does.</p>
+      </section>
+      <section class="card" id="lineup">
+        <h2><span class="no">06</span> Manage the lineup</h2>
+        <ul>
+          <li><b>Reorder:</b> drag the ⠿ grip on the left side of a game row. Top = highest priority. Moving a row doesn't change the game you're watching.</li>
+          <li><b>Watch a game:</b> click its row, or hover over it and choose <b>Watch This Game</b> in the preview rail.</li>
+          <li><b>Preview:</b> hover a row to see its latest video frame without covering the lineup. Protected video may show no preview.</li>
+          <li><b>Rename:</b> click the ✎ pencil. Clearing your name restores the automatic one.</li>
+          <li><b>Remove:</b> click ✕ to take a game out of the lineup. Its tab keeps playing, muted.</li>
+          <li><b>Readings:</b> each row shows what SportsWitch hears on that game right now ("Live · Game 96%", "Ad · recognised ad"), and, for a game on a break, roughly when it should be back.</li>
+          <li><b>Changing channel in a tab:</b> SportsWitch notices and listens to the new channel afresh.</li>
+        </ul>
+      </section>
+      <section class="card" id="controller">
+        <h2><span class="no">07</span> Keep controls in view</h2>
+        <ol>
+          <li>Click <b>Detach Controller</b> in the popup. A separate, <b>resizable controller window</b> opens with the same lineup, corrections, ad-break card and settings.</li>
+          <li>Optional: click <b>Keep Always on Top (PiP)</b> in that window. Chrome needs this extra click for Picture-in-Picture.</li>
+          <li><b>Idle fade</b> at the bottom makes the controller less prominent when the pointer is away.</li>
+          <li><b>Status in the corner</b> also shows what SportsWitch hears directly on the game you're watching, including over fullscreen video.</li>
+        </ol>
+      </section>
+      <section class="card" id="settings">
+        <h2><span class="no">08</span> Settings</h2>
+        <p>Click <b>⚙</b> in the popup or <b>⚙ Settings</b> in the controller (also Chrome's <i>Extension options</i>). Changes apply immediately; <b>Restore recommended detection settings</b> puts the detection back to the defaults.</p>
+        <div class="table-scroll"><table><thead><tr><th>Setting</th><th>Default</th><th>What it does</th></tr></thead><tbody>
+          <tr><td>Act on an ad at</td><td>90% sure</td><td>How sure SportsWitch must be before it mutes or switches.</td></tr>
+          <tr><td>Back to the game below</td><td>50%</td><td>How unsure it must become before the sound comes back.</td></tr>
+          <tr><td>Learn on this computer</td><td>On</td><td>Remembers ads, notices ads that air again, and learns from your corrections.</td></tr>
+          <tr><td>Typical ad break</td><td>150 s</td><td>Switch mode: how long a game you left for ads is presumed on its break while SportsWitch can't hear it clearly.</td></tr>
+          <tr><td>Recheck a game still on ads</td><td>45 s</td><td>Switch mode: wait before trying a game again that was still in its break (longer each time).</td></tr>
+          <tr><td>Ignore audio after a switch</td><td>8 s</td><td>Switch mode: lets a newly watched game settle before SportsWitch acts on it.</td></tr>
+          <tr><td>Return to higher-priority games</td><td>On</td><td>Goes back to a higher game once it is clearly live again. Off: stays on the game it switched to until that game's ad, or until you choose another. Also under the Switch button in the popup and controller.</td></tr>
+          <tr><td>Mute when every game is on a break</td><td>On</td><td>Mutes the ad when no other game is live, until something live returns.</td></tr>
+          <tr><td>Jump to big moments</td><td>Off</td><td>Switches to a lineup game in the red zone or a close finish.</td></tr>
+          <tr><td>Whoosh sound on a switch</td><td>On</td><td>A short whoosh when SportsWitch changes games.</td></tr>
+          <tr><td>Fullscreen video after a switch</td><td>Off</td><td>Experimental: tries the site's own fullscreen button after a switch.</td></tr>
+          <tr><td>Status in the corner</td><td>On</td><td>A small pill over the game showing what SportsWitch hears.</td></tr>
+          <tr><td>Lighter animations</td><td>Automatic</td><td>Fewer animations for slower computers; on by itself with 2 GB of memory or less.</td></tr>
+          <tr><td>Save a detection log</td><td>Off</td><td>Numbers only, no audio, kept on this computer for retraining.</td></tr>
+        </tbody></table></div>
+      </section>
+      <section class="card" id="full-screen">
+        <h2><span class="no">09</span> Fullscreen and TV setup</h2>
+        <ol>
+          <li>Optional: turn on <b>Fullscreen video after a switch</b> in Settings. It is <b>off by default</b>.</li>
+          <li>For YouTube TV and similar sites, press <b>F11</b> first if the browser's tabs and address bar stay visible.</li>
+          <li><b>Muting and unmuting never change fullscreen.</b> Turn the setting off if a site behaves unexpectedly.</li>
+        </ol>
+        <p class="note">Chrome briefly shows a debugger notice during a fullscreen attempt. Not every streaming service lets extensions use its fullscreen button.</p>
+      </section>
+      <section class="card" id="performance">
+        <h2><span class="no">10</span> Performance &amp; streaming tips</h2>
+        <ul>
+          <li><b>More streams use more memory.</b> Each streaming tab uses Chrome memory, and often CPU and graphics. If the computer slows down, use fewer streams.</li>
+          <li><b>Video quality may drop with more streams.</b> Streams share your internet connection; services may lower the picture quality or buffer more.</li>
+          <li><b>Turn on graphics acceleration.</b> In <code>chrome://settings/system</code>, turn on <b>Use graphics acceleration when available</b> and relaunch Chrome if asked.</li>
+          <li><b>Lighter animations</b> (Settings › Display &amp; data) keeps SportsWitch's own screens from animating, for slower computers.</li>
+        </ul>
+        <p class="note"><b>Recommended starting point:</b> begin with two streams, check that playback is smooth, and add more gradually.</p>
+      </section>
+      <section class="card" id="troubleshoot">
+        <h2><span class="no">11</span> Troubleshooting</h2>
+        <details><summary>“Add This Tab” is disabled</summary><p>Make sure the playing stream's tab is active and its address begins with <code>http://</code> or <code>https://</code>. SportsWitch can't listen to Chrome's own pages. Switch mode allows 2–8 games; Silence mode one. The popup says why Add is disabled.</p></details>
+        <details><summary>“No sound from” a game, or no preview</summary><p>Make sure the stream is playing and not muted on the site itself. Some providers protect their media, so the picture or sound can't be captured; SportsWitch can't get around that.</p></details>
+        <details><summary>An ad wasn't muted, or the game was</summary><p>Press <b>That's an ad</b> or <b>That's the game</b> once. It fixes the moment and SportsWitch learns from it. Studio shows (SportsCenter and the like) can sound like ads at first. If mistakes keep happening, try a stricter <b>Act on an ad at</b> in Settings.</p></details>
+        <details><summary>The status pill or ad-break screen doesn't show on a site</summary><p>Some pages don't allow extensions to draw on them. The popup and controller still show everything, and muting and switching still work.</p></details>
+        <details><summary>Scores, trivia or fantasy don't appear</summary><p>They need an internet connection. Fantasy needs you signed in to espn.com in Chrome and your team chosen in <b>Customize › ESPN account</b>. If ESPN says the sign-in expired, sign in to espn.com again.</p></details>
+        <details><summary>The radio doesn't play</summary><p>Some stations stop working or move. SportsWitch looks up a moved station once; otherwise pick another in <b>Customize › Station</b>. If the station can't play, the ad simply stays muted.</p></details>
+        <details><summary>Names show the channel or provider instead of the game</summary><p>Use the ✎ pencil on that row to type the matchup. Automatic names depend on what the site shows.</p></details>
+        <details><summary>The popup shows a version mismatch or “Unknown request”</summary><p>At <code>chrome://extensions</code>, disable any duplicate SportsWitch, then reload the current one. Never mix files from different versions.</p></details>
+        <details><summary>Streams look blurry, buffer, or stutter</summary><p>Try fewer streams, turn on Chrome's graphics acceleration (<code>chrome://settings/system</code>), and check your connection and other apps using the computer.</p></details>
+        <details><summary>I want to start over</summary><p>Click <b>Disable</b>, refresh any stuck player, and add your streams again. Settings stay until you change them; <b>Reset what SportsWitch learned</b> clears what it learned.</p></details>
+      </section>
+      <section class="card" id="privacy">
+        <h2><span class="no">12</span> Permissions and privacy</h2>
+        <p>SportsWitch analyzes the sound of the streams you add on this computer. Audio is never recorded or uploaded. What it learns (remembered ads, a couple of hours of audio fingerprints, your corrections) stays in Chrome on this computer.</p>
+        <p>Only the optional ad-break extras use the internet: trivia from Open Trivia DB, scores and fantasy from ESPN, radio from Radio Browser, and Spotify. Fantasy uses Chrome's own espn.com sign-in, which is what the <b>cookies</b> permission is for; your ESPN password never passes through SportsWitch. Spotify plays in your own Spotify tab; SportsWitch only presses its play and pause, and never sees your Spotify account. Once a day SportsWitch also checks for updates: through the Chrome Web Store, or, for a copy loaded from a folder, by asking SportsWitch's GitHub page for its newest version; with automatic updates set up, SportsWitch Updater downloads that version from GitHub. Nothing about you is sent to the developer. The full privacy policy is linked from <b>Settings › Privacy</b>.</p>
+        <p>SportsWitch asks for access to websites (to capture the streams you add, read their titles and draw its status on them), tab capture, local storage, a debugger permission used only for the optional fullscreen setting, and permission to talk to SportsWitch Updater on your computer, used only for automatic updates. The detection log is off unless you turn it on. Add only streams you're comfortable letting SportsWitch listen to.</p>
+        <p>SportsWitch doesn't remove or bypass advertising or copy protection; it predicts ad-like audio and switches or mutes what <em>you</em> are watching.</p>
+      </section>
+    </main>
+    <footer><span>SportsWitch 4.4.0 · Help &amp; setup</span><a href="#top">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

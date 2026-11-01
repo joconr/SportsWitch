@@ -1,0 +1,237 @@
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;--bg:#100f20;--panel:#1c1934;--panel2:#18162e;--border:#44365f;--text:#f7f4ff;--muted:#b7a9cd;--purple:#b48bff;--purple2:#cfafff;--highlight:#6f50ad;--live:#70e9b5;--ad:#ff8ba6}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{width:380px;margin:0;padding:17px;background:radial-gradient(ellipse at 90% -15%,#34214d 0%,var(--bg) 55%);color:var(--text);font-size:13px}
+button{border:0;border-radius:10px;min-height:39px;padding:9px 12px;background:#3c3359;color:var(--text);font:650 13px system-ui;cursor:pointer}
+button:hover:not(:disabled){filter:brightness(1.14)}button:focus-visible,input:focus-visible{outline:2px solid #d9bfff;outline-offset:3px}button:disabled{opacity:.46;cursor:default}
+.app-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.app-icon{width:49px;height:49px;border-radius:12px;object-fit:contain;flex-shrink:0}
+.brand{min-width:0;flex:1}.brand h1{font-size:20px;font-weight:790;letter-spacing:-.8px;margin:0;white-space:nowrap}.brand h1 span{color:#cb9fff}.brand small{font-size:10px;color:#e0c9ff;font-weight:760;letter-spacing:0;margin-left:2px}
+.brand p{font-size:10.5px;color:var(--muted);margin:3px 0 0;white-space:nowrap}
+.update-link{display:block;min-height:0;margin:3px 0 0;padding:0;background:none;color:#d7b2ff;font:750 10.5px system-ui;white-space:nowrap;text-align:left}
+.icon-button{display:grid;place-items:center;width:39px;min-height:39px;padding:8px;color:#d6b8ff;border:1px solid #52416e;background:#2c2245;flex-shrink:0}
+.panel,.probability,.setting-card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:14px}
+.top,.prob-header,.setting-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.heading{font-size:12px;font-weight:750;letter-spacing:.25px}
+.pill{font-size:11px;font-weight:750;border-radius:20px;padding:5px 9px;background:#504361;color:#f3e8ff;white-space:nowrap}
+.pill.on{background:#215444;color:#a2ffd0}.pill.warn{background:#5b402e;color:#ffe2ba}.pill.err{background:#5d2d48;color:#ffc0d7}
+.actions{display:flex;gap:9px;margin-top:12px}.actions button{flex:1}
+.primary-button{background:#8456ca;color:#fff}.disable-button{background:#753952;color:#ffe9f0}
+.details{font-size:11.5px;line-height:1.5;color:#d6c9e7;margin:11px 0 0;overflow-wrap:anywhere}
+.probability{margin-top:12px;background:#18152d}.prob-header{align-items:baseline}.subtle{font-size:10.5px;color:var(--muted)}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:12px}.prob-label{font-size:12px;color:#d1c4e5}.num{font-size:29px;font-variant-numeric:tabular-nums;font-weight:800;letter-spacing:-1px;margin-top:1px}
+.live{color:var(--live)}.ad{color:var(--ad)}
+.track{width:100%;height:7px;background:#49415d;border-radius:12px;overflow:hidden;margin-top:6px}.fill{height:100%;border-radius:12px;width:0;transition:width .22s}.fill.livebg{background:#5cdaa4}.fill.adbg{background:#ed6c96}
+.analysis-meta{display:flex;justify-content:space-between;gap:10px;color:#c2b2d8;font-size:10.5px;margin-top:12px;line-height:1.4}.analysis-meta span:last-child{text-align:right}
+.footer-progress{margin-top:9px;height:3px;overflow:hidden;background:#403456;border-radius:9px}.footer-progress div{height:100%;background:#ae80f2;width:0;transition:width .35s linear}
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin:16px 1px 9px}.section-head small{font-size:11px;color:#a99bc4}
+#games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.game{width:100%;padding:9px 10px;min-height:58px;text-align:left;border:1px solid #493e64;background:#242039;display:flex;gap:9px;align-items:center}
+.game.selected{border-color:#b994f8;background:#392851}.game-num{width:30px;height:30px;border-radius:8px;background:#574970;display:grid;place-items:center;font-size:13px;flex-shrink:0}.game.selected .game-num{background:#9c67de}
+.game-details{display:flex;flex-direction:column;gap:3px;overflow:hidden}.game-title{font-size:12px;font-weight:700;white-space:nowrap}.game-reading{font-weight:450;font-size:10px;color:#ccbde1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{font-size:12px;color:#c7b7dd;line-height:1.5;padding:10px;border:1px dashed #6b5685;border-radius:9px;grid-column:span 2}
+.note{font-size:11px;color:#a99abd;margin-top:12px;line-height:1.55}.error{font-size:11.5px;color:#ffadca;line-height:1.45;margin-top:9px}
+.settings-heading{margin:4px 0 13px}.back-button{background:none;border:0;min-height:28px;padding:0;color:#caa8ff;font-size:12px;margin-bottom:10px}
+.settings-heading h2{font-size:19px;letter-spacing:-.4px;margin:0 0 5px}.settings-heading p{color:#c5b5da;font-size:11.5px;line-height:1.5;margin:0}
+.setting-card{padding:15px 14px 12px;margin:11px 0;background:var(--panel2)}
+.setting-top label{font-weight:770;font-size:13px}.setting-top output{background:#392953;border:1px solid #76579b;padding:5px 8px;border-radius:8px;color:#ebd8ff;font-size:14px;font-weight:850;font-variant-numeric:tabular-nums;min-width:51px;text-align:center}
+.hint{color:#baacd2;font-size:11px;margin:8px 0 13px;line-height:1.55}
+.range-field{height:40px;position:relative;padding-top:16px}.range-field input[type=range]{appearance:none;-webkit-appearance:none;display:block;width:100%;margin:0;height:9px;background:linear-gradient(to right,#b48bff 0%,#7e55c3 var(--filled,50%),#49405e var(--filled,50%),#49405e 100%);border-radius:20px;cursor:pointer;position:relative;z-index:2}
+.range-field input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:19px;height:19px;background:#f1dfff;border:3px solid #9765de;border-radius:50%;box-shadow:0 0 0 2px #2c203f}
+.range-field input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#f1dfff;border:3px solid #9765de;border-radius:50%}
+.recommended-marker{position:absolute;top:2px;transform:translateX(-50%);height:30px;pointer-events:none;z-index:1;text-align:center}
+.recommended-marker b{display:block;position:absolute;top:-3px;left:-4px;color:#e3caff;font-size:12px}.recommended-marker i{display:block;position:absolute;top:13px;left:0;height:15px;border-left:2px dashed #ead4ff;opacity:.95}
+.range-info{display:flex;justify-content:space-between;align-items:flex-start;gap:4px;font-size:9px;color:#a89bbf}.range-info span:first-child,.range-info span:last-child{max-width:95px}.range-info span:last-child{text-align:right}.recommended-text{color:#d7b2ff;text-align:center;font-weight:700;font-size:9.5px}
+.settings-explanation{border:1px solid #58466e;background:#231b39;border-radius:12px;padding:12px 13px;margin-top:12px;color:#cfc1e3;font-size:11px;line-height:1.5}.setting-state-title{font-size:12px;font-weight:750;color:#eee1ff}.settings-explanation p{margin:6px 0 0}
+.setting-actions{display:flex;gap:8px;margin-top:12px}.setting-actions button:first-child{flex:1}.outline-button{background:#2d2644;border:1px solid #7e609f;font-size:11.5px;white-space:nowrap}
+.save-note{font-size:11px;min-height:20px;margin-top:8px;color:#91ecc9;text-align:center}
+
+/* 3.2: compact game-title rows and cached video previews; original palette retained. */
+.game{min-height:78px}
+.game-details{flex:1;min-width:0}
+.game-match{font-size:10px;color:#e0caef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;font-weight:550}
+.game-reading{font-size:9.6px}
+.hover-preview{position:fixed;z-index:100;bottom:12px;right:12px;width:332px;padding:10px;border-radius:12px;background:#201735;box-shadow:0 9px 30px #07040dbf,0 0 0 1px #8c63bb;pointer-events:none}
+.preview-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:7px}
+.preview-top b{font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-top span{font-size:9.5px;color:#cab1e9;white-space:nowrap}
+.hover-preview img{display:block;width:100%;max-height:200px;object-fit:contain;background:#0f0b17;border-radius:8px;border:1px solid #60477f}
+.preview-fallback{border:1px dashed #67517e;border-radius:8px;padding:21px 13px;text-align:center;font-size:11px;color:#d6c0eb;line-height:1.5}
+.preview-caption{font-size:9px;color:#a996c1;margin-top:7px;text-align:center}
+
+/* 3.3: mode tabs, favorite stars, and hold control. Original palette retained. */
+.mode-panel{margin-bottom:12px;padding:9px 10px 8px;background:#201a36;border:1px solid #52426e;border-radius:13px}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#130f26;border:1px solid #3e315c;border-radius:10px;padding:4px}
+.mode-button{min-height:35px;background:transparent;color:#bda9db;border-radius:7px;font-weight:760;letter-spacing:.1px}
+.mode-button.selected{background:#7852b8;color:#fff;box-shadow:0 1px 5px #0b071887}
+.mode-description{margin:8px 3px 0;color:#c9b7e1;font-size:10.5px;line-height:1.45}
+/* 4.2.1: Return to higher-priority games, right under the mode it belongs to. */
+.return-toggle{display:flex;align-items:center;gap:10px;width:100%;min-height:0;margin-top:8px;padding:8px 10px;text-align:left;background:#171230;border:1px solid #3e315c;border-radius:9px;font-weight:400}
+.return-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.return-text b{font-size:11.5px;font-weight:720;color:#eadcff}
+.return-text small{font-size:10px;color:#b9a8d3;line-height:1.35}
+.hold-button{display:block;width:100%;margin-top:10px;min-height:33px;color:#e9d8ff;background:#302544;border:1px solid #8f70b2}
+.hold-button.holding{background:#69518b;color:#fff;border-color:#d0a9ff;box-shadow:inset 0 0 0 1px #bca0e9}
+.mode-status{margin:10px 0 0;padding:8px 9px;border:1px solid #665184;border-radius:9px;background:#2b2240;color:#dec8ff;font-size:11px;line-height:1.35}
+.game-slot{position:relative;min-width:0;display:flex;align-items:stretch}
+.game-slot>.game{width:100%;padding-right:31px}
+.favorite-button{position:absolute;right:5px;top:5px;min-height:27px;width:27px;padding:0;display:grid;place-items:center;background:transparent;color:#aa91cb;font-size:22px;line-height:1;border:1px solid transparent;border-radius:7px}
+.favorite-button:hover:not(:disabled){background:#4b3868;border-color:#8566ad;color:#ffe5a4}
+.favorite-button.is-favorite{color:#ffd47e;text-shadow:0 0 8px #f1c9694d}
+
+.setting-toggle{display:flex;align-items:center;gap:8px;margin:-2px 0 8px;color:#ddc7fb;font-size:11px;font-weight:670;cursor:pointer}
+.setting-toggle input{accent-color:#b68cff;width:15px;height:15px;cursor:pointer}
+.range-field input:disabled{opacity:.56;cursor:not-allowed}
+
+/* 3.3.2 — translucent hover preview with its own interactive favorite control. */
+.hover-preview{
+  background:rgba(32,23,53,.85);
+  border:1px solid rgba(195,155,248,.75);
+  box-shadow:0 9px 32px rgba(7,4,13,.74),0 0 0 1px rgba(144,101,187,.22);
+  -webkit-backdrop-filter:blur(12px) saturate(1.15);
+  backdrop-filter:blur(12px) saturate(1.15);
+  pointer-events:auto;
+}
+.preview-media{position:relative;min-height:80px}
+.preview-media img{opacity:.91;width:100%}
+.preview-favorite{
+  position:absolute;top:7px;right:7px;z-index:2;
+  display:grid;place-items:center;min-height:36px;width:36px;padding:0;
+  border:1px solid rgba(210,178,255,.65);border-radius:10px;
+  background:rgba(27,15,47,.78);color:#f5eaff;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  font-size:27px;line-height:1;box-shadow:0 2px 10px #08041399;
+}
+.preview-favorite:hover:not(:disabled){background:rgba(81,49,116,.95);color:#ffe4a1}
+.preview-favorite.is-favorite{color:#ffdb84;border-color:#f8d28b;text-shadow:0 0 9px #f5c76f80}
+.preview-caption{line-height:1.4;overflow-wrap:anywhere}
+
+
+/* 3.3.3 — see-through hover preview and an explicit manual Watch control. */
+.hover-preview{
+  background:rgba(32,23,53,.57);
+  border-color:rgba(195,155,248,.65);
+  -webkit-backdrop-filter:blur(2px);
+  backdrop-filter:blur(2px);
+  box-shadow:0 6px 22px rgba(7,4,13,.53),0 0 0 1px rgba(144,101,187,.18);
+}
+.preview-media img{opacity:.78}
+.preview-actions{margin-top:8px}
+.preview-watch{
+  display:block;width:100%;min-height:38px;padding:8px 12px;
+  border:1px solid #d7b5ff;border-radius:9px;
+  background:rgba(122,77,184,.94);
+  color:#fff;font-size:12px;font-weight:800;
+  box-shadow:0 2px 8px rgba(14,7,30,.32);
+}
+.preview-watch:hover:not(:disabled){background:rgba(145,96,205,.98)}
+.preview-watch:disabled{background:rgba(54,40,79,.84);color:#d0c1e6;opacity:.82}
+.preview-caption{color:#ded0ee}
+
+/* 4.0.0: readable single-column ranked stream list. Retain lavender theme. */
+body{width:425px}
+#games{display:flex;flex-direction:column;gap:7px}
+.game-slot.priority-row{display:flex;align-items:stretch;min-width:0;
+  background:#242039;border:1px solid #493e64;border-radius:11px;overflow:hidden;
+  transition:border-color .15s,background .15s}
+.game-slot.priority-row.is-current{border-color:#b994f8;background:#392851}
+.game-slot.priority-row.dragging{opacity:.5}
+.game-slot.priority-row.drag-over{border-color:#e4bfff;background:#4a316d;box-shadow:inset 0 0 0 1px #d5abff}
+.drag-grip{flex:0 0 32px;width:32px;min-height:76px;padding:0 5px;
+  border-radius:0;background:#302544;color:#c4a7ed;font-size:23px;
+  cursor:grab;touch-action:none;user-select:none;border-right:1px solid #524069}
+.drag-grip:active{cursor:grabbing}
+.drag-grip:disabled{opacity:.4;cursor:default}
+.game-slot.priority-row>.game{flex:1;min-width:0;padding:9px 9px 9px 8px;min-height:76px;
+ border:0;border-radius:0;background:transparent;gap:9px}
+.game-slot.priority-row>.game:hover:not(:disabled){background:rgba(181,138,238,.10)}
+.game-slot.priority-row>.game.selected{background:transparent}
+.game-num{width:29px;height:29px;border-radius:8px;font-size:12px;font-weight:800}
+.game-details{gap:4px;min-width:0}
+.game-firstline{display:flex;align-items:center;gap:8px;min-width:0}
+.game-site{font-size:10px;color:#ddc2ff;font-weight:760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.priority-label{margin-left:auto;white-space:nowrap;color:#ae99cd;font-size:8px;letter-spacing:.45px;font-weight:800}
+.game-match{color:#f4eaff;font-size:12.5px;font-weight:720;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-reading{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:17px;font-size:10.3px;color:#cabee2}
+.classification{padding:2px 6px;border-radius:6px;font-size:9px;font-weight:800}
+.classification.live{color:#a3ffd7;background:#224638}
+.classification.commercial{color:#ffc7d4;background:#552b49}
+.classification.uncertain{color:#e5dbb1;background:#57472e}
+.reading-values{color:#e7d3ff;font-variant-numeric:tabular-nums;font-weight:690}
+.reading-age{color:#a99bbd;margin-left:auto;font-size:9px}
+.hover-preview{width:340px}
+
+/* SportsWitch 4.1.0: a separate floating controller; existing popup unchanged otherwise. */
+.detach-controller{display:block;width:100%;min-height:36px;margin:0 0 13px;
+  background:#322449;color:#e4d0ff;border:1px solid #8d69be;
+  border-radius:10px;font-size:11.5px;font-weight:760;letter-spacing:.1px}
+.detach-controller:hover{background:#493364;border-color:#cfabff}
+.rename-game{flex:0 0 29px;margin:0 4px 0 0;align-self:center;min-height:31px;
+  padding:0;color:#d9bcff;background:rgba(104,73,140,.3);border:1px solid #725b94;
+  border-radius:8px;font-size:16px}
+.rename-game:hover{background:#5c4281}
+/* Keep preview watch and drag grip unobstructed. */
+.game-slot.priority-row>.game{padding-right:3px}
+
+
+/* SportsWitch 4.1.0 — interaction polish (visual only). */
+:root{--ui-smooth:cubic-bezier(.2,.8,.2,1)}
+button{transition:background-color .18s var(--ui-smooth),border-color .18s var(--ui-smooth),box-shadow .18s var(--ui-smooth),color .18s var(--ui-smooth),transform .14s var(--ui-smooth),filter .18s var(--ui-smooth)}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button:active:not(:disabled){transform:translateY(1px) scale(.985)}
+button:disabled{transform:none}
+.mode-button.selected,.game.selected{box-shadow:0 1px 10px #ad7feb30}
+.game-slot.priority-row{transition:background-color .2s,border-color .2s,box-shadow .2s}
+.game-slot.priority-row.drag-over{filter:brightness(1.14)}
+.game-slot.priority-row.dragging{opacity:.58}
+.game-slot.priority-row.is-new{animation:sw410-row-in .24s var(--ui-smooth) both}
+.game,.priority-row,.rename-game,.drag-grip,.pill{transition:background-color .2s var(--ui-smooth),border-color .2s var(--ui-smooth),box-shadow .2s var(--ui-smooth),color .2s var(--ui-smooth)}
+#settingsView:not([hidden]),#mainView:not([hidden]){animation:sw410-view-in .2s var(--ui-smooth) both}
+.hover-preview:not([hidden]){animation:sw410-preview-in .18s var(--ui-smooth) both}
+@keyframes sw410-view-in{from{opacity:.25;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sw410-preview-in{from{opacity:0;transform:translateY(7px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes sw410-row-in{from{opacity:.65;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* 4.1.1 — Reserved side-by-side preview rail. No overlays cover a game row. */
+body{width:675px;max-width:675px}
+.lineup-workspace{display:grid;grid-template-columns:minmax(0, 1.6fr) minmax(0, 1fr);gap:11px;align-items:start}
+.lineup-side{min-width:0}
+.lineup-side>.section-head{margin-top:0}
+.preview-rail{position:relative;min-width:0;min-height:208px;border:1px solid rgba(164,122,219,.38);border-radius:13px;background:rgba(33,25,51,.44);align-self:stretch}
+.preview-rail-empty{position:sticky;top:12px;margin:0;padding:30px 13px;font-size:11px;line-height:1.6;text-align:center;color:#b8a5d1}
+.hover-preview{position:sticky;top:9px;bottom:auto;right:auto;left:auto;width:auto;max-width:100%;max-height:min(420px,calc(100vh - 24px));overflow-y:auto;margin:0;padding:9px;box-shadow:none;background:rgba(39,27,61,.87);border:1px solid #a178d0;border-radius:12px;z-index:1;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.hover-preview[hidden]{display:none!important}
+.preview-rail:has(.hover-preview:not([hidden])) .preview-rail-empty{display:none}
+.hover-preview img{max-height:165px;object-fit:contain}
+.hover-preview .preview-fallback{padding:16px 8px;font-size:10px}
+.hover-preview .preview-watch{min-height:34px}
+.hover-preview .preview-caption{font-size:9px}
+.game-slot.priority-row{min-width:0}
+.game-slot.priority-row>.game{min-width:0}
+/* The preview's rail stays reserved even before the first hover, preventing shifts. */
+@media(max-width:630px){body{width:600px;max-width:600px}.lineup-workspace{grid-template-columns:minmax(0,1.5fr) minmax(0,.9fr)}}
+
+/* 4.1.2: persistent, keyboard-accessible help button beside Settings. */
+.header-tools{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.header-tools .help-button{font:800 20px/1 system-ui,sans-serif;border-radius:11px;color:#e7d5ff}
+.header-tools .help-button:hover{background:#604385;border-color:#b995f3}
+.header-tools .help-button:focus-visible{outline:2px solid #efccff;outline-offset:2px}
+
+/* 4.2.0: the Android app's corrections, ad-break card and reading line. */
+.corrections{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.correction{min-height:36px;font-size:12px;border:1px solid transparent}
+.ad-correction{background:#4f2440;color:#ffd6e1;border-color:#8a4566}
+.game-correction{background:#1f4636;color:#c4ffe3;border-color:#3f8466}
+.correction.unavailable{opacity:.5}
+.reading-line{margin:10px 0 0;font-size:12px;font-weight:650;line-height:1.4}
+.tone-live{color:#8af4c1}.tone-ad{color:#ffa3b8}.tone-uncertain{color:#ffd88a}.tone-dim{color:#b7a9cd}
+.breaks-card{margin:12px 0 0;padding:13px 14px;border-radius:13px;background:#1c1934;border:1px solid var(--border)}
+.breaks-top{display:flex;justify-content:space-between;align-items:center}
+.breaks-card .heading{color:#cfafff;letter-spacing:.1em}
+.breaks-summary{margin:6px 0 0;font-size:12px;line-height:1.5;color:#e9ddff}
+.breaks-card .actions{margin-top:10px}.breaks-card .actions button{min-height:34px}
+.lineup-workspace{margin-top:16px}
+.game-reading .reading-values{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.remove-game{font-size:13px;color:#ffb3c6}.remove-game:hover{background:#6a2d4a}
+.sw-light *{animation:none!important;transition:none!important}

@@ -1,0 +1,80 @@
+# Sends each SportsWitch release to the Chrome Web Store: uploads the release's store package and submits
+# it for review. Google publishes it once the review passes, and Chrome then updates every installed copy
+# by itself (SportsWitch also asks Chrome to look daily, and installs updates between games).
+#
+# One-time setup, described in store/LISTING.md under "Automatic publishing": the repository variables
+# CWS_PUBLISHER_ID and CWS_ITEM_ID, and the secret CWS_SERVICE_ACCOUNT_KEY (a JSON key of the Google Cloud
+# service account added in the Chrome Web Store Developer Dashboard). Until they exist, a release only
+# lands on GitHub and this workflow says so.
+name: Chrome Web Store
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release to send again, e.g. v4.4.0
+        required: true
+
+permissions:
+  contents: read
+
+concurrency: chrome-web-store
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+      ITEM_ID: ${{ vars.CWS_ITEM_ID }}
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      HAS_KEY: ${{ secrets.CWS_SERVICE_ACCOUNT_KEY != '' }}
+    steps:
+      - name: Is the Chrome Web Store set up?
+        id: setup
+        run: |
+          if [ -n "$PUBLISHER_ID" ] && [ -n "$ITEM_ID" ] && [ "$HAS_KEY" = true ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::The Chrome Web Store isn't set up for automatic publishing yet, so $TAG stays on GitHub only."
+          fi
+
+      - name: Download the store package
+        if: steps.setup.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern 'SportsWitch-*-store.zip' --output store.zip
+
+      - name: Upload it and submit it for review
+        if: steps.setup.outputs.ready == 'true'
+        env:
+          KEY: ${{ secrets.CWS_SERVICE_ACCOUNT_KEY }}
+        run: |
+          set -euo pipefail
+          # The service account's key signs a token request (Google's OAuth 2.0 for service accounts).
+          b64() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+          now=$(date +%s)
+          header=$(printf '{"alg":"RS256","typ":"JWT"}' | b64)
+          claims=$(jq -cn --arg iss "$(jq -r .client_email <<< "$KEY")" --argjson now "$now" \
+            '{iss: $iss, scope: "https://www.googleapis.com/auth/chromewebstore", aud: "https://oauth2.googleapis.com/token", iat: $now, exp: ($now + 3600)}' | b64)
+          signature=$(printf '%s.%s' "$header" "$claims" | openssl dgst -sha256 -sign <(jq -r .private_key <<< "$KEY") | b64)
+          token=$(curl -sS --fail-with-body https://oauth2.googleapis.com/token \
+            -d grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer -d "assertion=$header.$claims.$signature" | jq -r .access_token)
+          echo "::add-mask::$token"
+
+          api=https://chromewebstore.googleapis.com
+          item="publishers/$PUBLISHER_ID/items/$ITEM_ID"
+          state=$(curl -sS --fail-with-body -X POST -H "Authorization: Bearer $token" -T store.zip "$api/upload/v2/$item:upload" | jq -r .uploadState)
+          for _ in $(seq 30); do
+            [ "$state" = IN_PROGRESS ] || break
+            sleep 10
+            state=$(curl -sS --fail-with-body -H "Authorization: Bearer $token" "$api/v2/$item:fetchStatus" | jq -r .lastAsyncUploadState)
+          done
+          if [ "$state" != SUCCEEDED ]; then
+            echo "::error::The Chrome Web Store upload of $TAG ended as $state. A version must be higher than the one already in the store."
+            exit 1
+          fi
+          review=$(curl -sS --fail-with-body -X POST -H "Authorization: Bearer $token" -H 'Content-Type: application/json' \
+            -d '{"publishType": "DEFAULT_PUBLISH"}' "$api/v2/$item:publish" | jq -r .state)
+          echo "::notice::$TAG is in the Chrome Web Store ($review). Google publishes it when the review passes."
