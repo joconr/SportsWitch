@@ -7,11 +7,14 @@ updates" registered it for the SportsWitch folder it sits in. It answers one mes
                                           against release-key.xml, and copies the new files over this folder.
 SportsWitch reloads itself afterwards. Its settings live in Chrome, not in this folder, so they stay.
 Failures answer {"ok":false,"error":"..."} and leave the folder as it was.
+Each answer also removes files earlier versions came with that SportsWitch no longer has ($retired).
 SPORTSWITCH_UPDATE_SOURCE, for tests, downloads from another address; the signature check still applies.
 #>
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $folder = Split-Path -Parent $PSScriptRoot
+$retired = @('PUBLIC_TRAINING_RESULTS.md', 'PUBLISHING_CHECKLIST.md')
+$workshop = Test-Path -LiteralPath (Join-Path $folder 'tools\publish_release.ps1')
 
 # Chrome's native messaging: a 4-byte length, then that much UTF-8 JSON, each way.
 function Read-Exactly($stream, [int]$count) {
@@ -41,10 +44,16 @@ function Send-Message($answer) {
 function Read-Manifest($path) {
   return [IO.File]::ReadAllText((Join-Path $path 'manifest.json'), [Text.Encoding]::UTF8) | ConvertFrom-Json
 }
+function Remove-Retired {
+  if ($workshop) { return }
+  foreach ($name in $retired) {
+    try { Remove-Item -LiteralPath (Join-Path $folder $name) -Force } catch {}
+  }
+}
 
 function Install-Release([string]$version) {
   if ($version -notmatch '^\d{1,4}(\.\d{1,4}){1,3}$') { throw "That isn't a version number." }
-  if (Test-Path -LiteralPath (Join-Path $folder 'tools\publish_release.ps1')) { throw "This is the workshop folder; it doesn't update itself." }
+  if ($workshop) { throw "This copy of SportsWitch doesn't update itself." }
   $manifest = Read-Manifest $folder
   if ($manifest.version -eq $version) { return @{ok = $true; version = $version} } # already copied, only the reload is left
   if ([string]$manifest.homepage_url -notmatch '^https://github\.com/[A-Za-z0-9-]+/[A-Za-z0-9._-]+$') { throw "manifest.json doesn't name SportsWitch's GitHub page." }
@@ -132,6 +141,7 @@ function Install-Release([string]$version) {
 # Answer last: Chrome may end this process as soon as the answer arrives.
 try {
   $message = Read-Message
+  Remove-Retired
   switch ([string]$message.cmd) {
     'hello' { $answer = @{ok = $true; version = [string](Read-Manifest $folder).version} }
     'install' { $answer = Install-Release ([string]$message.version) }

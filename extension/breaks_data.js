@@ -473,9 +473,11 @@
    * page has. Reports what the player shows and, for 'play' or 'pause', acts. The player's own Media
    * Session actions, kept by spotify_media.js, set the state outright. Without them it is the play
    * button, which toggles, so it is pressed only when the music isn't already doing what was asked:
-   * [audible] says whether Chrome hears the tab.
+   * [audible] says whether Chrome hears the tab, and [before] is the button's label from before
+   * SportsWitch pressed play. A label that changed since then means the music plays, perhaps on another
+   * device such as the Spotify app, where Chrome can't hear it; this works in any language Spotify shows.
    */
-  function spotifyPage(action, audible) {
+  function spotifyPage(action, audible, before = '') {
     const actions = window[Symbol.for('sportswitch.mediaSession')] || {};
     const button = document.querySelector('[data-testid="control-button-playpause"]');
     const session = navigator.mediaSession;
@@ -486,10 +488,12 @@
       session: typeof actions.play === 'function' && typeof actions.pause === 'function',
       playback: session ? session.playbackState : 'none',
       track: metadata ? [metadata.title, metadata.artist].filter(Boolean).join(' · ') : '',
+      label: button ? button.getAttribute('aria-label') || '' : '',
       via: null,
     };
     if (action !== 'play' && action !== 'pause') return state;
-    const playing = state.playback === 'playing' || (state.playback !== 'paused' && !!audible);
+    const changed = !!before && !!state.label && state.label !== before;
+    const playing = state.playback === 'playing' || (state.playback !== 'paused' && (!!audible || changed));
     if (state.session) {
       // Pausing is always safe; playing what already plays would claim music SportsWitch didn't start.
       if (action === 'pause' || !playing) {

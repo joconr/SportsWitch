@@ -222,7 +222,7 @@ async function refresh(){
   refreshBusy=true;
   try{
     const s=await invoke('GET_STATUS',{windowId:null,activeTabId:null});
-    if(s.buildVersion!=='4.4.0')throw Error('The extension background worker does not match version 4.4.0. Reload the extension.');
+    if(s.buildVersion!=='4.4.1')throw Error('SportsWitch was updated, but Chrome is still running the version before. Open chrome://extensions and click the reload arrow on SportsWitch.');
     render(s);
   }catch(e){error(e.message);}
   finally{refreshBusy=false;}

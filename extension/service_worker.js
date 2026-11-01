@@ -5,7 +5,7 @@
  */
 'use strict';
 importScripts('native_fullscreen.js', 'title_extractor.js', 'engine.js', 'breaks_data.js', 'breaks.js', 'detection_log.js');
-const BUILD_VERSION = '4.4.0';
+const BUILD_VERSION = '4.4.1';
 const MIN_GAMES = 2;
 const MAX_GAMES = 8;
 const {SwitchEngine, Presenter, DEFAULT_SETTINGS, validateSettings, migrateSettings, centred, AUDIO_LABEL} = self.SportsWitchEngine;
@@ -160,7 +160,7 @@ async function checkForUpdates({install = false} = {}) {
   const helper = kind === 'folder' ? await askHelper({cmd: 'hello'}) : {ok: false};
   const {auto} = await readUpdate();
   const result = !available ? 'SportsWitch is up to date.'
-    : kind === 'workshop' ? `SportsWitch ${available} is on GitHub. The workshop copy doesn't update itself.`
+    : kind === 'workshop' ? `SportsWitch ${available} is out. Get it from GitHub.`
     : !helper.ok ? `SportsWitch ${available} is out. Get it from GitHub, or set up automatic updates and it installs by itself.`
     : auto ? `SportsWitch ${available} is out. It installs by itself between games.` : `SportsWitch ${available} is out.`;
   const state = await writeUpdate({checkedAt: Date.now(), available, helper: !!helper.ok, error: null, result});
@@ -1084,7 +1084,10 @@ async function incoming(msg, sender) {
     case 'MARK_LIVE': return await serial(markLive);
     case 'READING': await serial(() => onReading(msg.reading)); return {received: true};
     case 'LEARNED_SUMMARY': await storeLearnedSummary(msg); return {};
-    case 'AUDIO_ERROR': await serial(() => disable('Audio analysis error: ' + msg.error)); return {received: true};
+    case 'AUDIO_ERROR':
+      console.info('[SportsWitch] Audio analysis:', msg.error);
+      await serial(() => disable('SportsWitch stopped listening because its sound analysis ran into a problem. Add your games again to start over.'));
+      return {received: true};
     case 'CAPTURE_ENDED': await serial(() => captureEnded(msg.tabId)); return {received: true};
     case 'RADIO_EVENT': await breaks.onRadioEvent(msg); return {};
     case 'RESET_LEARNING': return await resetLearning();

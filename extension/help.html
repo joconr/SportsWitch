@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>SportsWitch 4.4.0 — Help & Setup</title>
+  <title>SportsWitch 4.4.1 — Help & Setup</title>
   <link rel="stylesheet" href="help.css">
 </head>
 <body>
   <div class="page">
     <header class="hero" id="top">
       <img src="icons/icon128.png" alt="SportsWitch broom-riding witch logo" width="66" height="66">
-      <div><div class="eyebrow">THE SPORTS STREAM COMPANION</div><h1>Sports<span>Witch</span> <small>4.4.0</small></h1><p>Your setup guide, controls, ad breaks and troubleshooting in one place.</p></div>
+      <div><div class="eyebrow">THE SPORTS STREAM COMPANION</div><h1>Sports<span>Witch</span> <small>4.4.1</small></h1><p>Your setup guide, controls, ad breaks and troubleshooting in one place.</p></div>
     </header>
     <div class="intro"><strong>Start with two tabs.</strong> Open a sports stream, click the SportsWitch extension, choose <b>Switch</b>, and click <b>Add This Tab</b>. Repeat for another stream. SportsWitch starts switching once two are connected. For one game, choose <b>Silence</b> instead: ads are muted and the sound comes back with the game.</div>
     <nav class="contents" aria-label="Help topics">
@@ -29,9 +29,7 @@
           <li>Disable any older SportsWitch copies. Having multiple versions active can interfere with audio and switching.</li>
           <li>Once on each computer, double-click <b>Set up automatic updates</b> in the SportsWitch folder. If Windows asks whether to run it, choose <b>Run</b>.</li>
         </ol>
-        <p class="note"><b>Updates:</b> a folder copy checks SportsWitch's GitHub page every day. With automatic updates set up, SportsWitch Updater, a small helper, downloads the new version, checks that SportsWitch's developer signed it and copies it into the folder, and SportsWitch restarts with it between games, never during one. Without it, the popup says when a new version is out: put the new files in the same folder and click the reload arrow on SportsWitch in <code>chrome://extensions</code>. Either way the same folder keeps your settings and everything SportsWitch has learned, so leave it where it is. <b>Settings › Updates</b> shows the version and can check right away.</p>
-        <p><b>From the Chrome Web Store</b>, once it's there (the link will be on SportsWitch's GitHub page): click <b>Add to Chrome</b>, then pin SportsWitch. Chrome keeps that copy up to date, installing new versions between games.</p>
-      </section>
+        <p class="note"><b>Updates:</b> a folder copy checks SportsWitch's GitHub page every day. With automatic updates set up, SportsWitch Updater, a small helper, downloads the new version, checks that SportsWitch's developer signed it and copies it into the folder, and SportsWitch restarts with it between games, never during one. Without it, the popup says when a new version is out: put the new files in the same folder and click the reload arrow on SportsWitch in <code>chrome://extensions</code>. Either way the same folder keeps your settings and everything SportsWitch has learned, so leave it where it is. <b>Settings › Updates</b> shows the version and can check right away.</p>      </section>
       <section class="card" id="quick-start">
         <h2><span class="no">02</span> Add your sports streams</h2>
         <ol>
@@ -112,7 +110,7 @@
           <tr><td>Fullscreen video after a switch</td><td>Off</td><td>Experimental: tries the site's own fullscreen button after a switch.</td></tr>
           <tr><td>Status in the corner</td><td>On</td><td>A small pill over the game showing what SportsWitch hears.</td></tr>
           <tr><td>Lighter animations</td><td>Automatic</td><td>Fewer animations for slower computers; on by itself with 2 GB of memory or less.</td></tr>
-          <tr><td>Save a detection log</td><td>Off</td><td>Numbers only, no audio, kept on this computer for retraining.</td></tr>
+          <tr><td>Save a detection log</td><td>Off</td><td>Numbers only, no sound, kept on this computer: what SportsWitch heard and decided each second.</td></tr>
         </tbody></table></div>
       </section>
       <section class="card" id="full-screen">
@@ -143,19 +141,19 @@
         <details><summary>Scores, trivia or fantasy don't appear</summary><p>They need an internet connection. Fantasy needs you signed in to espn.com in Chrome and your team chosen in <b>Customize › ESPN account</b>. If ESPN says the sign-in expired, sign in to espn.com again.</p></details>
         <details><summary>The radio doesn't play</summary><p>Some stations stop working or move. SportsWitch looks up a moved station once; otherwise pick another in <b>Customize › Station</b>. If the station can't play, the ad simply stays muted.</p></details>
         <details><summary>Names show the channel or provider instead of the game</summary><p>Use the ✎ pencil on that row to type the matchup. Automatic names depend on what the site shows.</p></details>
-        <details><summary>The popup shows a version mismatch or “Unknown request”</summary><p>At <code>chrome://extensions</code>, disable any duplicate SportsWitch, then reload the current one. Never mix files from different versions.</p></details>
+        <details><summary>The popup says Chrome is still running an older SportsWitch, or “Unknown request”</summary><p>At <code>chrome://extensions</code>, click the reload arrow on SportsWitch. If SportsWitch is listed twice, turn off the one you don't use. When you update by hand, copy all the new files; never mix files from different versions.</p></details>
         <details><summary>Streams look blurry, buffer, or stutter</summary><p>Try fewer streams, turn on Chrome's graphics acceleration (<code>chrome://settings/system</code>), and check your connection and other apps using the computer.</p></details>
         <details><summary>I want to start over</summary><p>Click <b>Disable</b>, refresh any stuck player, and add your streams again. Settings stay until you change them; <b>Reset what SportsWitch learned</b> clears what it learned.</p></details>
       </section>
       <section class="card" id="privacy">
         <h2><span class="no">12</span> Permissions and privacy</h2>
         <p>SportsWitch analyzes the sound of the streams you add on this computer. Audio is never recorded or uploaded. What it learns (remembered ads, a couple of hours of audio fingerprints, your corrections) stays in Chrome on this computer.</p>
-        <p>Only the optional ad-break extras use the internet: trivia from Open Trivia DB, scores and fantasy from ESPN, radio from Radio Browser, and Spotify. Fantasy uses Chrome's own espn.com sign-in, which is what the <b>cookies</b> permission is for; your ESPN password never passes through SportsWitch. Spotify plays in your own Spotify tab; SportsWitch only presses its play and pause, and never sees your Spotify account. Once a day SportsWitch also checks for updates: through the Chrome Web Store, or, for a copy loaded from a folder, by asking SportsWitch's GitHub page for its newest version; with automatic updates set up, SportsWitch Updater downloads that version from GitHub. Nothing about you is sent to the developer. The full privacy policy is linked from <b>Settings › Privacy</b>.</p>
+        <p>Only the optional ad-break extras use the internet: trivia from Open Trivia DB, scores and fantasy from ESPN, radio from Radio Browser, and Spotify. Fantasy uses Chrome's own espn.com sign-in, which is what the <b>cookies</b> permission is for; your ESPN password never passes through SportsWitch. Spotify plays in your own Spotify tab; SportsWitch only presses its play and pause, and never sees your Spotify account. Once a day SportsWitch also asks SportsWitch's GitHub page for its newest version; with automatic updates set up, SportsWitch Updater downloads that version from GitHub. Nothing about you is sent to the developer. The full privacy policy is linked from <b>Settings › Privacy</b>.</p>
         <p>SportsWitch asks for access to websites (to capture the streams you add, read their titles and draw its status on them), tab capture, local storage, a debugger permission used only for the optional fullscreen setting, and permission to talk to SportsWitch Updater on your computer, used only for automatic updates. The detection log is off unless you turn it on. Add only streams you're comfortable letting SportsWitch listen to.</p>
         <p>SportsWitch doesn't remove or bypass advertising or copy protection; it predicts ad-like audio and switches or mutes what <em>you</em> are watching.</p>
       </section>
     </main>
-    <footer><span>SportsWitch 4.4.0 · Help &amp; setup</span><a href="#top">Back to top ↑</a></footer>
+    <footer><span>SportsWitch 4.4.1 · Help &amp; setup</span><a href="#top">Back to top ↑</a></footer>
   </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SportsWitch",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "Switch among sports streams, mute ads and fill breaks with trivia, scores, fantasy and music. Ad detection runs locally.",
   "homepage_url": "https://github.com/joconr/SportsWitch",
   "minimum_chrome_version": "116",
@@ -43,7 +43,7 @@
     }
   },
   "action": {
-    "default_title": "SportsWitch 4.4.0",
+    "default_title": "SportsWitch 4.4.1",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

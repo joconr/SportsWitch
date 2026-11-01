@@ -17,7 +17,7 @@ let previewTitle='';
 let draggingTabId=null;
 let reorderBusy=false;
 let welcomed=false;
-const POPUP_BUILD_VERSION='4.4.0';
+const POPUP_BUILD_VERSION='4.4.1';
 let workerMatchesPopup=true;
 const {Sheet,Pages,showBreakPreview}=globalThis.SportsWitchSheet;
 const sheet=new Sheet($('sheetHost'),{onPreview:()=>showBreakPreview(document.body),onClose:()=>void status()});
@@ -48,9 +48,8 @@ function paintStatus(s){
   document.body.classList.toggle('sw-light',!!s.lighterMotion);
   workerMatchesPopup=s.buildVersion===POPUP_BUILD_VERSION;
   if(!workerMatchesPopup){
-    updateError('SportsWitch files are mixed: the popup is '+POPUP_BUILD_VERSION+
-      ', but the background worker is '+(s.buildVersion||'an older release')+
-      '. Open chrome://extensions, disable duplicate SportsWitch entries, and reload the extension from a clean '+POPUP_BUILD_VERSION+' folder.');
+    updateError('SportsWitch '+POPUP_BUILD_VERSION+' is installed, but Chrome is still running '+(s.buildVersion||'an older version')+
+      '. Open chrome://extensions and click the reload arrow on SportsWitch.');
   }
   // A newer version for a folder copy, or what's new right after an update.
   const update=s.update||{};
@@ -265,7 +264,7 @@ async function selectGameByTabId(tabId){
 async function commitReorder(sourceId,targetId){
   if(busy||reorderBusy||sourceId===targetId)return;
   if(!workerMatchesPopup){
-    notice='Cannot reorder: SportsWitch popup and background worker do not match. Reload the '+POPUP_BUILD_VERSION+' extension from chrome://extensions.';
+    notice='Can\'t reorder yet: Chrome is still running an older SportsWitch. Open chrome://extensions and click the reload arrow on SportsWitch.';
     await status();return;
   }
   const ids=lastStatus?.gameTabs?.map(tab=>tab.id)||[];

@@ -2,6 +2,29 @@
 
 The newest version first. Install and update instructions are in the [README](README.md).
 
+## SportsWitch 4.4.1
+
+**Released:** 2026-10-31
+
+A small fix for Spotify during ad breaks. See [how to install it](README.md).
+
+### What's new
+
+* **No more false "Spotify didn't start."** Spotify can take a few seconds to start, especially when its tab has
+  been in the background for a while. SportsWitch now gives it about 12 seconds before it says anything, and the
+  message goes away as soon as the music plays.
+* **Spotify playing somewhere else counts too.** When your music plays on the Spotify app, your phone or a speaker
+  instead of in the Chrome tab, SportsWitch no longer says it didn't start, and it still pauses the music when the
+  game is back.
+* **Try it** in Customize your ad break › Spotify waits for the music to start before it tells you how it went.
+* Clearer wording in Settings, Help and the README.
+
+### Good to know
+
+* If the ad-break screen says "Spotify hasn't started", press play once in the Spotify tab. After that SportsWitch
+  can start it by itself.
+* With automatic updates set up, this version installs by itself between games.
+
 ## SportsWitch 4.4.0
 
 **Released:** 2026-10-31

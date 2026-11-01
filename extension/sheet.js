@@ -312,7 +312,7 @@
           d.lighterMotion, async v => { await invoke('SET_FLAGS', {flags: {lighterMotion: v}}); await sheet.refresh(); });
         b.toggle('log', 'Save a detection log', 'Numbers only, no audio, kept in Chrome on this computer (up to 50 MB; the oldest sessions are deleted first). Includes what was on, so it\'s off unless you turn it on.',
           s.saveDetectionLog, v => saveSettings(sheet, {saveDetectionLog: v}));
-        if (d.logs.length) b.link('logs', 'Detection logs', 'Download saved sessions as CSV files, for retraining.', `${d.logs.length} saved`, () => Pages.logs(sheet));
+        if (d.logs.length) b.link('logs', 'Detection logs', 'Download saved sessions as spreadsheet files.', `${d.logs.length} saved`, () => Pages.logs(sheet));
 
         b.section('More');
         b.link('setup', 'Setup & help', 'Pinning, shortcuts and troubleshooting.', null, () => Pages.setup(sheet));
@@ -504,8 +504,8 @@
           await saveBreaks(sheet, {spotify: v});
           if (v && p.radio) sheet.toast('The radio is off while Spotify plays.');
         });
-        b.action('try', 'Try it', 'Plays Spotify for 5 seconds, then pauses it.', null, async () => {
-          sheet.toast('Playing Spotify for 5 seconds…');
+        b.action('try', 'Try it', 'Plays a few seconds of Spotify, then pauses it.', null, async () => {
+          sheet.toast('Starting Spotify…');
           const result = await invoke('SPOTIFY_TRY');
           sheet.toast(result.message);
           await sheet.refresh();
@@ -515,7 +515,7 @@
 
     logs(sheet) {
       return sheet.open('Detection logs', (b, d) => {
-        b.note('One CSV file per session: a row per second with the 46 features and what SportsWitch decided, plus your corrections. No audio. tools/retrain_from_logs.py in the SportsWitch project turns them into training data.');
+        b.note('One file per session, with a line for each second: what SportsWitch measured in the sound, what it decided, and your corrections. No sound is saved. The files open in a spreadsheet program.');
         for (const log of d.logs) {
           b.action('log_' + log.id, log.name, new Date(log.startedAt).toLocaleString(), `${Math.max(1, Math.round(log.bytes / 1024))} KB`, async () => {
             download(log.name, await invoke('LOGS_CSV', {id: log.id}));
@@ -558,7 +558,7 @@
         if (u.updatedFrom) await invoke('UPDATE_SEEN'); // the popup's "what's new" note has done its job
         const keeps = 'Your settings, ad-break choices and everything it learned stay as they are, unless an update says it changes one.';
         b.note(u.kind === 'store' ? `SportsWitch updates itself from the Chrome Web Store. It checks every day and installs a new version between games, never during one. ${keeps}`
-          : u.kind === 'workshop' ? 'This is the workshop copy, the folder new versions are made in, so it never updates itself. tools\\publish_release.ps1 puts a new version on GitHub, and the other copies get it from there.'
+          : u.kind === 'workshop' ? "This copy doesn't update itself. When a new version is out, SportsWitch says so here, and you can get it from SportsWitch's GitHub page."
           : selfUpdating ? `This copy updates itself from SportsWitch's GitHub page. It checks every day and installs a new version between games, never during one. ${keeps}`
           : "This copy was loaded from a folder. It checks SportsWitch's GitHub page every day and tells you when a new version is out. Set up automatic updates once on this computer and it installs them by itself.", 'text');
         b.action('version', 'Version', u.updatedFrom ? `Updated from ${u.updatedFrom}.` : null, d.version, () => {});
@@ -603,14 +603,15 @@
 
     /* The plain-words version of PRIVACY.md, so it's in front of the viewer, not only on the web. */
     privacy(sheet) {
-      return sheet.open('Privacy', b => {
+      return sheet.open('Privacy', (b, d) => {
         b.note('What SportsWitch reads, and where it goes:', 'text');
         b.note('• The sound of the game tabs you add, analysed on this computer to tell ads from the game. It is never recorded or sent anywhere.\n' +
           '• What it learns (ads it remembers, your corrections) stays in Chrome on this computer. "Reset what SportsWitch learned" deletes it.\n' +
           '• Your games\' tab titles and preview pictures, shown only inside SportsWitch.\n' +
           '• Ad-break extras, if you turn them on: trivia from Open Trivia DB, scores from ESPN, radio from Radio Browser. Fantasy football reads your league with your own espn.com sign-in in Chrome. Spotify plays in your own Spotify tab; SportsWitch only presses play and pause.\n' +
           '• The detection log, off unless you turn it on, keeps numbers (no audio) on this computer.\n' +
-          '• Updates: Chrome updates the Chrome Web Store copy. A copy loaded from a folder asks SportsWitch\'s GitHub page once a day for the newest version; with automatic updates set up, SportsWitch Updater downloads it from there.\n' +
+          (d.updates.kind === 'store' ? '• Updates: Chrome keeps SportsWitch up to date through the Chrome Web Store.\n'
+            : '• Updates: once a day SportsWitch asks its GitHub page for the newest version; with automatic updates set up, SportsWitch Updater downloads it from there.\n') +
           '• Nothing about you is sent to the developer, sold or shared. No ads, no analytics.');
         b.action('policy', 'Read the full privacy policy', 'Opens it on GitHub.', null, () => invoke('OPEN_UPDATE_PAGE', {what: 'privacy'}));
       });

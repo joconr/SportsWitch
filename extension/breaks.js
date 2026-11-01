@@ -14,7 +14,10 @@ const ACCOUNTS_KEY = 'sportsWitchAccounts';
 const TRIVIA_DECK_KEY = 'sportsWitchTriviaDeck';
 const TRIVIA_TOKEN_KEY = 'sportsWitchTriviaToken';
 const BreakData = self.SportsWitchBreaks;
-const SPOTIFY_NOT_HEARD = "Spotify didn't start. Press play once in the Spotify tab, then pause it.";
+const SPOTIFY_NOT_HEARD = "Spotify hasn't started. Press play once in the Spotify tab; after that SportsWitch can start it.";
+const SPOTIFY_DIDNT_START = "Spotify didn't start. Press play once in the Spotify tab, pause it, then try again.";
+/** How long Spotify may take to start before SportsWitch says how to help: a tab that sat in the background can be slow. */
+const SPOTIFY_START_MS = 12000;
 const BREAK_POLL_MS = 15000;
 const QUESTION_MS = 15000;
 const ANSWER_MS = 7000;
@@ -90,23 +93,29 @@ const SpotifyTab = {
     return tabs[0] || null;
   },
   /** spotifyPage's answer from inside the tab; null while Chrome has the tab asleep or can't reach it. */
-  async run(tab, action) {
+  async run(tab, action, before = '') {
     if (tab.discarded) return null;
     try {
       const [frame] = await chrome.scripting.executeScript({target: {tabId: tab.id}, world: 'MAIN', func: BreakData.spotifyPage,
-        args: [action, !!tab.audible]});
+        args: [action, !!tab.audible, before]});
       return frame && frame.result ? frame.result : null;
     } catch {
       return null;
     }
   },
-  /** Whether the tab is heard, or says it plays (on a speaker it is not heard here). */
-  async heard(tabId) {
-    const tab = await chrome.tabs.get(tabId).catch(() => null);
-    if (!tab) return false;
-    if (tab.audible) return true;
+  /*
+   * Whether the music SportsWitch started ({tabId, label}) plays: 'heard' when Chrome hears the tab or the
+   * player says it plays, 'started' when only the play button changed since (as when Spotify plays on
+   * another device, such as the Spotify app or a speaker), null when nothing shows it yet.
+   */
+  async playing(started) {
+    const tab = await chrome.tabs.get(started.tabId).catch(() => null);
+    if (!tab) return null;
+    if (tab.audible) return 'heard';
     const page = await SpotifyTab.run(tab, 'state');
-    return !!page && page.playback === 'playing';
+    if (!page) return null;
+    if (page.playback === 'playing') return 'heard';
+    return started.label && page.label && page.label !== started.label ? 'started' : null;
   },
   /** For the settings page: none | asleep | signedOut | loading | ready, and what's loaded. */
   async status() {
@@ -504,12 +513,26 @@ class Breaks {
       if (!this.inBreak) return; // the game came back first
       const started = await this.playSpotify();
       this.setMusic(started.line);
-      if (!started.ok) return;
-      // Chrome lets a tab start music only once the viewer has played some in it; say so if none is heard.
-      setTimeout(() => void (async () => {
-        if (this.inBreak && this.spotifyStarted && !await SpotifyTab.heard(started.tabId)) this.setMusic(SPOTIFY_NOT_HEARD);
-      })(), 3000);
+      if (started.ok && this.spotifyStarted) void this.watchSpotify(this.spotifyStarted, started.line);
     }).catch(() => {});
+  }
+  /*
+   * Chrome lets a tab start music only once the viewer has played some in it, and a Spotify tab that sat
+   * in the background for a while can take some seconds to start. So the music line says how to help only
+   * after SPOTIFY_START_MS without a sign of music, and goes back to the song as soon as there is one.
+   * [started] is this break's music: a later break, or the game coming back, ends the watch.
+   */
+  async watchSpotify(started, line) {
+    const since = Date.now();
+    while (this.inBreak && this.spotifyStarted === started) {
+      const playing = await SpotifyTab.playing(started);
+      if (!this.inBreak || this.spotifyStarted !== started) return;
+      const waited = Date.now() - since;
+      const show = playing || waited < SPOTIFY_START_MS ? line : SPOTIFY_NOT_HEARD;
+      if (this.musicLine !== show) this.setMusic(show);
+      if (playing === 'heard') return;
+      await sleep(waited < SPOTIFY_START_MS ? 1000 : 3000);
+    }
   }
   spotifyStep(work) {
     const step = this.spotifyQueue.then(work);
@@ -526,7 +549,7 @@ class Breaks {
     if (!page) return {ok: false, line: 'Chrome put the Spotify tab to sleep. Click that tab once to wake it.'};
     if (!page.signedIn) return {ok: false, line: 'Sign in to Spotify in its tab.'};
     if (!page.ready && !page.session) return {ok: false, line: "Spotify's player isn't ready. Open its tab and choose something to play."};
-    if (page.via) this.spotifyStarted = {tabId: tab.id};
+    if (page.via) this.spotifyStarted = {tabId: tab.id, label: page.label};
     return {ok: true, tabId: tab.id, line: `♪ Spotify${page.track ? ` · ${page.track}` : ''}`};
   }
   async pauseSpotify() {
@@ -534,17 +557,25 @@ class Breaks {
     this.spotifyStarted = null;
     if (!started) return;
     const tab = await chrome.tabs.get(started.tabId).catch(() => null);
-    if (tab) await SpotifyTab.run(tab, 'pause');
+    if (tab) await SpotifyTab.run(tab, 'pause', started.label);
   }
-  /** "Try it" in the settings: about five seconds of Spotify, then paused again. */
+  /** "Try it" in the settings: a few seconds of Spotify once it plays, then paused again. */
   async trySpotify() {
     if (this.inBreak) return {ok: false, message: 'Try it again once this ad break is over.'};
     const started = await this.spotifyStep(() => this.playSpotify());
     if (!started.ok) return {ok: false, message: started.line};
-    await sleep(5000);
-    const heard = await SpotifyTab.heard(started.tabId);
+    // Music that already played isn't SportsWitch's; it is only listened to.
+    const watched = this.spotifyStarted || {tabId: started.tabId, label: ''};
+    let playing = null;
+    for (const since = Date.now(); playing !== 'heard' && Date.now() - since < SPOTIFY_START_MS;) {
+      await sleep(1000);
+      playing = await SpotifyTab.playing(watched);
+    }
+    if (playing) await sleep(4000);
     if (!this.inBreak) await this.spotifyStep(() => this.pauseSpotify()); // a break that began meanwhile keeps it
-    return heard ? {ok: true, message: 'Spotify played. It will play during ad breaks.'} : {ok: false, message: SPOTIFY_NOT_HEARD};
+    return playing === 'heard' ? {ok: true, message: 'Spotify played. It will play during ad breaks.'}
+      : playing ? {ok: true, message: "Spotify started. If you didn't hear it, press play once in the Spotify tab, then pause it."}
+        : {ok: false, message: SPOTIFY_DIDNT_START};
   }
   setMusic(line) {
     if (!this.radioActive) this.musicLine = line;

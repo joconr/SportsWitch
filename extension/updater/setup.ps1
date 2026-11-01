@@ -20,7 +20,7 @@ if ($Remove) {
   exit 0
 }
 if (Test-Path -LiteralPath (Join-Path $folder 'tools\publish_release.ps1')) {
-  Write-Host 'This is the workshop folder (it has tools\publish_release.ps1), which never updates itself. Nothing was changed.'
+  Write-Host "This copy of SportsWitch doesn't update itself, so automatic updates can't be set up for it. Nothing was changed."
   exit 1
 }
 if (-not (Test-Path -LiteralPath (Join-Path $folder 'manifest.json'))) {
